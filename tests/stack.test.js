@@ -1,19 +1,34 @@
-const stack = require('../src/stack');
+const { Builder, By, until } = require('selenium-webdriver');
+require('geckodriver');
 
-test('peek on empty stack returns undefined', () => {
-    expect(stack.peek()).toBeUndefined();
+const fileUnderTest = 'file://' + __dirname.replace(/ /g, '%20') + '/../dist/index.html';
+const defaultTimeout = 10000;
+let driver;
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000 * 60 * 5; // 5 minuter
+
+// Det här körs innan vi kör testerna för att säkerställa att Firefox är igång
+beforeAll(async () => {
+console.log(fileUnderTest);
+    driver = await new Builder().forBrowser('firefox').build();
+    await driver.get(fileUnderTest);
 });
 
-test('peek on stack with one element returns that element', () => {
-    stack.push(1);
-    expect(stack.peek()).toBeDefined();
-    expect(stack.peek()).toBe(1);
+// Allra sist avslutar vi Firefox igen
+afterAll(async() => {
+    await driver.quit();
+}, defaultTimeout);
+
+test('The stack should be empty in the beginning', async () => {
+	let stack = await driver.findElement(By.id('top_of_stack')).getText();
+	expect(stack).toEqual("n/a");
 });
 
-test('peek on stack with two or more elements returns the top element', () => {
-    stack.push(1);
-    stack.push("wow");
-    stack.push(42);
-    expect(stack.peek()).toBeDefined();
-    expect(stack.peek()).toBe(42);
+describe('Clicking "Pusha till stacken"', () => {
+	it('should open a prompt box', async () => {
+		let push = await driver.findElement(By.id('push'));
+		await push.click();
+		let alert = await driver.switchTo().alert();
+		await alert.sendKeys("Bananer");
+		await alert.accept();
+	});
 });
