@@ -23,6 +23,8 @@
   },
   "homepage": "https://github.com/albin-ux/testing-with-jest#readme",
   "dependencies": {
+    "geckodriver": "^1.22.3",
+    "selenium-webdriver": "^4.0.0-beta.3",
     "underscore": "^1.13.1"
   },
   "devDependencies": {
