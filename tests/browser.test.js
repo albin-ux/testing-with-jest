@@ -1,9 +1,5 @@
 const stack = require('../src/stack');
 
-test('Push should be undefined at start', () => {
-    expect(stack.push()).toBeDefined();
-});
-
 const { Builder, By, until } = require('selenium-webdriver');
 require('geckodriver');
 
@@ -24,9 +20,25 @@ afterAll(async() => {
     await driver.quit();
 }, defaultTimeout);
 
+test('The stack should be empty in the beginning', async () => {
+	let stack = await driver.findElement(By.id('top_of_stack')).getText();
+	expect(stack).toEqual("n/a");
+});
+
+describe('Clicking "Pusha till stacken"', () => {
+	it('should open a prompt box', async () => {
+		let push = await driver.findElement(By.id('push'));
+		await push.click();
+		let alert = await driver.switchTo().alert();
+		await alert.sendKeys("Bananer");
+		await alert.accept();
+	});
+});
+
 describe('Clicking "Poppa stacken!"', () => {
 	it('should open a prompt box', async () => {
 		let pop = await driver.findElement(By.id('pop'));
+		await pop.click();
 		let alert = await driver.switchTo().alert();
 	});
 });
