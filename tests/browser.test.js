@@ -38,7 +38,7 @@ describe('Clicking "Pusha till stacken"', () => {
 describe('Clicking "Poppa stacken!"', () => {
 	it('This should open a prompt box', async () => {
 		let pop = await driver.findElement(By.id('pop'));
-		await pop.click();
+		await peek.click();
 		let alert = await driver.switchTo().alert();
 	});
 });

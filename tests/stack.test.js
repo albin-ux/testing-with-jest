@@ -19,10 +19,10 @@ test('peek on stack with two or more elements returns the top element', () => {
 });
 
 test('Push should be undefined at start', () => {
-    expect(stack.push()).toBeUndefined();
+    expect(stack.push()).toBeDefined();
 });
 
 test('peek on stack with one element returns that element', () => {
     stack.pop(1);
-    expect(stack.pop()).toBe(42);
+    expect(stack.pop()).toBe(1);
 });
